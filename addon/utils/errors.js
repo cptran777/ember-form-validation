@@ -19,15 +19,17 @@ const defaultError = (item) => {
  * @param {String} errProp  - Property name for the error
  * @param {Object} criteria - Object that houses the user's specified criteria
  * @param {[type]} errors   - Object that houses the errors
+ * @param {String} extra    - The type of extra validation being performed
+ *                            that gave rise to the error
  * @return {undefined}
  */
-export default function addError(item, errProp, criteria, errors, format) {
+export default function addError(item, errProp, criteria, errors, format, extra) {
   let test = null,
       message = null;
 
   if (format) {
     test = criteria[format];
-    message = test[`${errProp}Message`];
+    message = test[`${extra}Message`];
   }
 
   errors[item] = message ||

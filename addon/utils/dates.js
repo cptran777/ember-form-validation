@@ -1,3 +1,4 @@
+import addError from 'ember-form-validation/utils/errors';
 /*
  * Utilities functions related to testing validations for dates
  */
@@ -66,13 +67,7 @@ const dateValidations = (format, value, criteria, item, errors) => {
     beforeDate = new Date(beforeYear, beforeMonth, beforeDay);
 
     if (dateValue > beforeDate) {
-      beforeMessage = test.beforeMessage;
-      if (beforeMessage) {
-        errors[item] = beforeMessage;
-        return;
-      } else {
-        return addError(item, format, criteria, errors);
-      }
+      return addError(item, 'format', criteria, errors, 'date', 'before');
     }
   }
 
@@ -85,13 +80,7 @@ const dateValidations = (format, value, criteria, item, errors) => {
     afterDate = new Date(afterYear, afterMonth, afterDay);
 
     if (dateValue < afterDate) {
-      afterMessage = test.afterMessage;
-      if (afterMessage) {
-        errors[item] = afterMessage;
-        return;
-      } else {
-        return addError(item, format, criteria, errors);
-      }
+      return addError(item, 'format', criteria, errors, 'date', 'after');
     }
   }
 };
