@@ -1,5 +1,7 @@
 import addError from 'ember-form-validation/utils/errors';
 import formatTest from 'ember-form-validation/utils/format';
+import wordValidations from 'ember-form-validation/utils/words';
+import numberValidations from 'ember-form-validation/utils/words';
 import { testDate, dateValidations } from 'ember-form-validation/utils/dates';
 
 /*
@@ -40,16 +42,25 @@ export default function validateItem(item, value, criteria, errors) {
     case 'word':
     case 'words':
     case 'fullname':
+      wordValidations(format, value, criteria, item, errors);
       break;
 
     case 'number':
+      numberValidations(value, criteria, item, errors);
       break;
 
     case 'date-MMYYYY':
     case 'date-MMDDYYYY':
+      if (!testDate(value, format.slice(5))) {
+        return addError(item, 'format', criteria, errors);
+      }
+      dateValidations(format, value, criteria, item, errors);
       break;
 
     case 'custom':
+      // Temp until word validations has other criteria not applicable to
+      // custom
+      wordValidations(format, value, criteria, item, errors);
       break;
 
     default:
