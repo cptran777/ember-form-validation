@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-import formatTest from 'ember-form-validation/utils/format';
+import validateItem from 'ember-form-validation/utils/validate-item';
 
 export default Ember.Mixin.create({
 });

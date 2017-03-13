@@ -1,5 +1,6 @@
 import addError from 'ember-form-validation/utils/errors';
 import formatTest from 'ember-form-validation/utils/format';
+import { testDate, dateValidations } from 'ember-form-validation/utils/dates';
 
 /*
  * The validateItem function is used in the form-validation mixin to handle the
@@ -24,7 +25,6 @@ export default function validateItem(item, value, criteria, errors) {
      (!value || (typeof value === 'string' && value.length === 0))) {
     return addError(item, 'required', criteria, errors);
   }
-
   // Priority check for a custom format, otherwise check for a regular format
   customFormat = criteria.customFormat;
   format = customFormat ? 'custom' : criteria.format;
@@ -35,7 +35,6 @@ export default function validateItem(item, value, criteria, errors) {
                     criteria,
                     errors);
   }
-
   // Setup additional tests if necessary
   switch (format) {
     case 'word':
