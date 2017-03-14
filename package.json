@@ -1,6 +1,6 @@
 {
   "name": "ember-form-validation",
-  "version": "0.0.2-test",
+  "version": "0.0.3-test",
   "description": "The default blueprint for ember-cli addons.",
   "keywords": [
     "ember-addon"
