@@ -16,20 +16,20 @@ export default function numberValiadtions(value, criteria, item, errors) {
   const test = criteria.number;
   const numVal = Number(value);
 
-  let over, under;
-  let overMessage, underMessage;
+  let max, min;
+  let maxMessage, minMessage;
 
   if (!test) {
     return;
   }
 
-  under = test.under;
-  if (under && numVal >= under) {
-    return addError(item, 'format', criteria, errors, format, 'under');
+  min = test.min;
+  if (min && numVal < min) {
+    return addError(item, 'format', criteria, errors, 'number', 'min');
   }
 
-  over = test.over;
-  if (over && numVal <= over) {
-    return addError(item, 'format', criteria, errors, format, 'over');
+  max = test.max;
+  if (max && numVal > max) {
+    return addError(item, 'format', criteria, errors, 'number', 'max');
   }
 }

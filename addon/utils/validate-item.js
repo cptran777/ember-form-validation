@@ -1,7 +1,7 @@
 import addError from 'ember-form-validation/utils/errors';
 import formatTest from 'ember-form-validation/utils/format';
 import wordValidations from 'ember-form-validation/utils/words';
-import numberValidations from 'ember-form-validation/utils/words';
+import numberValidations from 'ember-form-validation/utils/numbers';
 import { testDate, dateValidations } from 'ember-form-validation/utils/dates';
 
 /*
