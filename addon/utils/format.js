@@ -14,8 +14,8 @@ const validationFormats = {
   number: /\b[0-9]+\b/,
   fullname: /\b[a-zA-Z]+\s[a-zA-Z]+/,
   email: /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/,
-  'date-MMYYYY': /\b[0-1][0-9]\/[1-2][0-9]{3}/,
-  'date-MMDDYYYY': /\b[0-1][0-9]\/[0-3][0-9]\/[1-2][0-9]{3}/
+  'date-MMYYYY': /\b[0-1][0-9]\/[1-2][0-9]{3}\b/,
+  'date-MMDDYYYY': /\b[0-1][0-9]\/[0-3][0-9]\/[1-2][0-9]{3}\b/
 };
 
 /**

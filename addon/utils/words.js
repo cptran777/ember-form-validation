@@ -14,6 +14,7 @@ import addError from 'ember-form-validation/utils/errors';
  */
 export default function wordValidations(format, value, criteria, item, errors) {
   const test = criteria[format];
+  const valLength = value.length;
 
   let minLength, maxLength;
   let minLengthMessage, maxLengthMessage;
@@ -23,12 +24,12 @@ export default function wordValidations(format, value, criteria, item, errors) {
   }
 
   minLength = test.minLength;
-  if (minLength && value < minLength) {
+  if (minLength && valLength < minLength) {
     return addError(item, 'format', criteria, errors, format, 'minLength');
   }
 
   maxLength = test.maxLength;
-  if (maxLength && value > maxLength) {
+  if (maxLength && valLength > maxLength) {
     return addError(item, 'format', criteria, errors, format, 'maxLength');
   }
 }
