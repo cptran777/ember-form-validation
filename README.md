@@ -290,12 +290,12 @@ used to specify additional criteria to test for. Options for properties on the
 used to specify additional criteria to test for. Options for properties on the
 `words` object:
 
-    - minLength [Number] - Sets the shortest words can be (in letters)
-    - minLengthMessage [String] - Error message to pass to `validationErrors` object
-    if the minLength test is specifically failed.
-    - maxLength [Number] - Sets the longest words can be (in letters)
-    - maxLengthMessage [String] - Error message to pass to `validationErrors` object
-    if the maxLength test is specifically failed
+    - `minLength` [Number] - Sets the shortest words can be (in letters)
+    - `minLengthMessage` [String] - Error message to pass to `validationErrors`
+    object if the minLength test is specifically failed.
+    - `maxLength` [Number] - Sets the longest words can be (in letters)
+    - `maxLengthMessage` [String] - Error message to pass to `validationErrors`
+    object if the maxLength test is specifically failed
 
 * `fullname` [Object] - If `format` is set to `"fullname"` then the `fullname`
 property can be used to specify additional criteria to test for. Options for
@@ -335,6 +335,50 @@ for properties on the `date` object:
     `"04/20/2017")
     - `afterMessage` [String] - The error message to pass to `validationErrors`
     object if the `after` test is specifically failed
+
+#### validationErrors [Object]
+
+`validationErrors` is an object property that can be access on the component to view
+the latest errors detected on the most recent run of the test validation action.
+Each property on `validationErrors` is the same as the property on the form being
+tested. For example, if your form has a property called `carModel` that should be a
+word, then if there is an invalid value then validation errors might look like this:
+
+```
+{
+  carModel: "The value you entered is not a valid car model"
+}
+```
+
+Note that the format of `validationErrors` is `property: "error message"`.
+
+#### validationErrorExists [Boolean]
+
+A property on your component provided by the mixin that will return true if the
+latest validation action returned an error or false if `validationErrors` is empty
+
+#### validationErrorsList [Array]
+
+Will conveniently put the `validationErrors` into the form of a list of objects. For
+each object, the format will be:
+
+```
+{
+  property: "Name of your property",
+  message: "Your provided error message or a default one"
+}
+```
+
+So, for example, if you have a property on your form called `carModel` and an error
+for validation is found with this property, one of the objects in the
+`validationErrorsList` array may look like this:
+
+```
+{
+  property: "carModel",
+  message: "The value you entered is not a valid car model"
+}
+```
 
 ### Example Validate Object
 
@@ -399,3 +443,5 @@ for properties on the `date` object:
 
 * Add ability to validate live on change to values
 * Add ability to do multiple format/customFormat validations on a single value
+* Ability to specify a "whitelist" of acceptable values or "blacklist" of
+unacceptable values
