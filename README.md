@@ -254,7 +254,86 @@ for a specific form property.
 * customFormatMessage [String] - Error message to pass to `validationErrors` object
 if the form value specifically fails the `customFormat` test.
 
-* format [String] - Specifies a format type to test the form value against.
+* format [String] - Specifies a format type to test the form value against. There are
+a number of available options for format:
+
+    - "word" - the value will be validated as a single word, letters only
+    - "words" - the value will be validated as a single or multiple words, letters
+    only
+    - "number" - the value will be validated as a number
+    - "fullname" - the value will be validated as exactly two words separated by a
+    space
+    - "email" - the value will be validated as a feasible email address (specifics
+    such as validity of domain name are not checked though)
+    - "password" - basic password validation for "must be at least 8 characters and
+    include 1 uppercase letter, 1 lower case letter, and 1 number" situations
+    - "date-MMYYYY" - the value will be validated as a date in the MMYYYY format
+    (Example: 03/1997)
+    - "date-MMDDYYYY" - the value will be validated as a date in the MMDDYYYY format
+    (Example: 12/25/2017)
+
+* formatMessage [String] - Error message to pass to the `validationErorrs` object if
+the form value specifically fails the `format` test
+
+* word [Object] - If `format` is set to `"word"` then the `word` property can be used
+to specify additional criteria to test for. Options for properties on the `word`:
+
+    - minLength [Number] - Sets the shortest a word can be (in letters)
+    - minLengthMessage [String] - Error message to pass to `validationErrors` object
+    if the minLength test is specifically failed.
+    - maxLength [Number] - Sets the longest a word can be (in letters)
+    - maxLengthMessage [String] - Error message to pass to `validationErrors` object
+    if the maxLength test is specifically failed
+
+* words [Object] - If `format` is set to `"words"` then the `words` property can be
+used to specify additional criteria to test for. Options for properties on the
+`words` object:
+
+    - minLength [Number] - Sets the shortest words can be (in letters)
+    - minLengthMessage [String] - Error message to pass to `validationErrors` object
+    if the minLength test is specifically failed.
+    - maxLength [Number] - Sets the longest words can be (in letters)
+    - maxLengthMessage [String] - Error message to pass to `validationErrors` object
+    if the maxLength test is specifically failed
+
+* fullname [Object] - If `format` is set to `"fullname"` then the `fullname`
+property can be used to specify additional criteria to test for. Options for
+properties on the `fullname` object:
+
+    - minLength [Number] - Sets the shortest name can be (in letters)
+    - minLengthMessage [String] - Error message to pass to `validationErrors` object
+    if the minLength test is specifically failed.
+    - maxLength [Number] - Sets the longest name can be (in letters)
+    - maxLengthMessage [String] - Error message to pass to `validationErrors` object
+    if the maxLength test is specifically failed
+
+* number [Object] - If `format` is set to `"number"` then the `number` property can
+be used to specify additional criteria to test for. Options for properties on the
+`number` object:
+
+    - min [Number] - Sets the lowest a number value can be
+    - minMessage [String] - Error message to pass to `validationErrors` object if the
+    min test is specifically failed
+    - max [Number] - Sets the highest a number value can be
+    - maxMessage [String] - Error message to pass to `validationErrors` object if the
+    max test is specifically failed
+
+* date [Object] - If `format` is set to `"date-MMYYYY"` or `"date-MMDDYYYY"` then the
+`date` property can be used to specify additional criteria to test for. Options for
+properties on the `date` object:
+
+    - before [String] - Sets the latest time value that the date can be. Note that
+    the format of this string should be the same as what is specified in the `format`
+    property (i.e. if `format` is `"date-MMYYYY"` then `before` should be
+    `"07/2010"`)
+    - beforeMessage [String] - The error message to pass to `validationErrors` object
+    if the `before` test is specifically failed
+    - after [String] - Sets the earliest time value that the date can be. Note that
+    the format of this string shold be the same as what is specified in the `format`
+    property (i.e. if `format` is `"date-MMDDYYYY"` then `after` should be
+    `"04/20/2017")
+    - afterMessage [String] - The error message to pass to `validationErrors` object
+    if the `after` test is specifically failed
 
 ### Example Validate Object
 
@@ -314,3 +393,8 @@ if the form value specifically fails the `customFormat` test.
 ...
 
 ```
+
+##Backlog
+
+* Add ability to validate live on change to values
+* Add ability to do multiple format/customFormat validations on a single value
