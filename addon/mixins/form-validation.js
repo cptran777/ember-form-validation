@@ -38,6 +38,20 @@ export default Ember.Mixin.create({
   }),
 
   /**
+   * Shows validation errors as a list
+   * @return {Array}
+   */
+  validationErrorsList: Ember.computed('validationErrors', function() {
+    const validationErrors = this.get('validationErrors');
+    const properties = Object.keys(validationErrors);
+
+    return properties.map(prop => ({
+      property: prop,
+      message: validationErrors[prop]
+    }));
+  }),
+
+  /**
    * Whether a validation error exists. Useful if realtime
    * validations are needed
    * @type {boolean}
