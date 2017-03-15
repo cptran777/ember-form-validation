@@ -439,9 +439,14 @@ for validation is found with this property, one of the objects in the
 
 ```
 
-##Backlog
+## Backlog
 
 * Add ability to validate live on change to values
 * Add ability to do multiple format/customFormat validations on a single value
 * Ability to specify a "whitelist" of acceptable values or "blacklist" of
 unacceptable values
+
+## Changelog
+
+[0.1.5] - Change format test to fix false negative cases where only partial strings
+were tested
