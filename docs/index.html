@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Home</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Home</h1>
+
+    
+
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><h1>ember-form-validation</h1><p>This README outlines the details of collaborating on this Ember addon. The Ember Form
+Validation addon that can be used as a mixin inside of a component or route that allows for an object to be passed in to validate a form</p>
+<h2>Installation</h2><ul>
+<li><code>ember install ember-form-validation</code></li>
+</ul>
+<h2>Repository</h2><p><a href="https://github.com/cptran777/ember-form-validation">Github Repository</a></p>
+<p><a href="https://www.npmjs.com/package/ember-form-validation">NPM Link</a></p>
+<h2>Usage</h2><h3>Basic Usage</h3><p>The form validation is a mixin that can be used by importing it from the addon
+and including in a component:</p>
+<pre class="prettyprint source"><code>import Ember from 'ember';
+import formValidation from 'ember-form-validation/mixins/form-validation';
+
+export default Ember.Component.extend(formValidation, {
+  ...
+})</code></pre><p>Within the definition for the component, you should use a property <code>validate</code> that is
+an object containing a property <code>form</code> that is a nested object. Each property Each
+property in <code>form</code> should correspond to a property you would like to validate on your
+actual form. For each of these properties, this is where you can specify the criteria
+for validation.</p>
+<p>Example:</p>
+<pre class="prettyprint source"><code>export default Ember.Component.extend(formValidation, {
+  validate: {
+    form: {
+      // The form property we should be evaluating here is name
+      name: {
+        required: true,
+        format: 'word',
+        // Your defined basic default error message
+        message: 'Name error',
+        // A more specific message tailored to the 'required' test
+        requiredMessage: 'You must enter a name'
+      },
+      age: {
+        required: true,
+        format: 'number'
+        message: 'Age error'
+      }
+      ...
+    }
+  }
+})</code></pre><p>Validate also allows for custom validations, which will be covered below.</p>
+<p>When validating a form, the mixin wants you to either define a <code>form</code> object that
+contains all of the form's values to be tested. By default, the validation will
+expect all the form values in a property on the component called <code>form</code>. However, in
+the <code>validate</code> object, you can specify a different property name called <code>formName</code>.</p>
+<p>Further, if you would like to keep the form properties as separate properties on the
+component instead, then before calling the validation action you can simply gather
+all the properties into an object and pass it into the validation action as an
+argument.</p>
+<p>Default Use Case:</p>
+<pre class="prettyprint source"><code>export default Ember.Component.extend(formValidation, {
+  validate: {
+    ...
+  },
+  form: {
+    // This name property corresponds to the same property inside the validate.form
+    // object
+    name: 'value goes here',
+    age: 24,
+    ...
+  },
+
+  ...
+  actions: {
+    yourAction() {
+      // This will actually call the validation function
+      this.send('validate_form_action');
+    }
+  }
+})</code></pre><p>Custom Form Property Case:</p>
+<pre class="prettyprint source"><code>export default Ember.Component.extend(formValidation, {
+  validate: {
+    formName: 'customName',
+    ...
+  },
+  customName: {
+    name: 'value goes here',
+    age: 69
+  },
+  ...
+
+  actions: {
+    yourAction() {
+      this.send('validate_form_action');
+    }
+  }
+})</code></pre><p>Pass in Form Use Case:</p>
+<pre class="prettyprint source"><code>export default Ember.Component.extend(formValidation, {
+  validate: {
+    form: {
+      name: {
+      ...
+    }
+  },
+
+  actions: {
+    yourAction() {
+      const form = {
+        name: 'name value',
+        age: '42'
+      }
+
+      this.send('validate_form_action', form);
+    }
+  }
+})</code></pre><p>After running <code>validate_form_action</code>, the first error that appears for each property
+will be written onto a property <code>validationErrors</code>. Priority for validation errors is</p>
+<ul>
+<li>required error</li>
+<li>custom specified format error</li>
+<li>basic format error</li>
+<li>extra validations error</li>
+</ul>
+<p>These can then be accessed by calling the same property name as the one being tested
+from the <code>validationErrors</code> object, or as a list of errors from the
+<code>validationErrorsList</code> property.</p>
+<p>A basic way to use this can be to use helpers on the template file to display the
+messages if they exist:</p>
+<pre class="prettyprint source"><code>// template.hbs
+
+&lt;div class=&quot;form&quot;>
+  &lt;form>
+    &lt;div>Name: {{input value=form.name}}&lt;/div>
+    &lt;div>{{validationErrors.name}}&lt;/div>
+    &lt;div>Age: {{input value=form.age}}&lt;/div>
+    &lt;div>{{validationErrors.age}}&lt;/div>
+    &lt;div>Birthday: {{input value=form.birthday}}&lt;/div>
+    &lt;div>{{validationErrors.birthday}}&lt;/div>
+    &lt;div>Current Day: {{input value=form.currentDay}}&lt;/div>
+    &lt;div>{{validationErrors.currentDay}}&lt;/div>
+  &lt;/form>
+&lt;/div></code></pre><p>Or to display them as a list of errors at the top of the form:</p>
+<pre class="prettyprint source"><code>&lt;div class=&quot;form&quot;>
+    {{#if validationErrorExists}}
+      {{#each validationErrorsList as |exampleError|}}
+        &lt;div>{{exampleError.property}}: {{exampleError.message}}&lt;/div>
+      {{/each}}
+    {{/if}}
+  &lt;form>
+    &lt;div>Name: {{input value=form.name}}&lt;/div>
+    &lt;div>Age: {{input value=form.age}}&lt;/div>
+    &lt;div>Birthday: {{input value=form.birthday}}&lt;/div>
+    &lt;div>Current Day: {{input value=form.currentDay}}&lt;/div>
+  &lt;/form>
+&lt;/div></code></pre><p>Note that <code>validationErrorExists</code> is another property that is a boolean to simply
+detect whether an error was found in the latest run of the <code>validate_form_action</code>.</p></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#_validatorItems">_validatorItems</a></li><li><a href="global.html#_validatorKey">_validatorKey</a></li><li><a href="global.html#defaultError">defaultError</a></li><li><a href="global.html#testDate">testDate</a></li><li><a href="global.html#validate">validate</a></li><li><a href="global.html#validationErrorExists">validationErrorExists</a></li><li><a href="global.html#validationErrors">validationErrors</a></li><li><a href="global.html#validationErrorsList">validationErrorsList</a></li><li><a href="global.html#validationFormats">validationFormats</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Tue Mar 14 2017 17:15:56 GMT-0700 (PDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

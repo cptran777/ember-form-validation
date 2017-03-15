@@ -197,3 +197,120 @@ Or to display them as a list of errors at the top of the form:
 Note that `validationErrorExists` is another property that is a boolean to simply
 detect whether an error was found in the latest run of the `validate_form_action`.
 
+### Documentation
+
+#### Validate [Object]
+
+`validate` is the property on the component to store the criteria to use to run the
+form validation.
+
+Properties of `validate`:
+
+* form [Object] - Each property on the `form` object should be the same as the
+property to check on the form. For more information about the possible criteria,
+check documentation for the `form` object
+
+* formName [String] - (Optional) Specifies a different property on the component
+that is the actual form object. By default, validation checks for a property
+named `form`.
+
+#### Form [Object]
+
+`form` is a nested property on `validate`.
+
+Example:
+
+```
+export default Ember.Component.extend(formValidation, {
+  validate: {
+    form: {
+      name: {
+      ...
+    }
+  },
+```
+
+`form` is an object where each property is the same property to be tested on the
+actual form and each value is a further-nested object with the testing criteria for
+each property.
+
+Options available for each criteria-object in `form`:
+
+* message [String] - The default error message to pass to `validationErrors` if an
+error is detected. You can create more specific messages, but if one doesn't exist
+for a certain type of validation test then it will fall back to this one.
+
+* required [Boolean] - Specifies whether the form property is a required value. If
+set to true, then the validation will produce an error if the form value is null,
+undefined, or an empty string.
+
+* requiredMessage [String] - Error message to pass to `validationErrors` object if
+the form value specifically fails the `required` test.
+
+* customFormat [RegExp] - User specified regular expression to test the form value
+against. This can be used if none of the `format` options for testing meet the needs
+for a specific form property.
+
+* customFormatMessage [String] - Error message to pass to `validationErrors` object
+if the form value specifically fails the `customFormat` test.
+
+* format [String] - Specifies a format type to test the form value against.
+
+### Example Validate Object
+
+```
+...
+  validate: {
+    formName: 'customform',
+    form: {
+      name: {
+        required: true,
+        requiredMessage: 'You must enter a name',
+        format: 'word',
+        message: 'Please enter a valid name',
+        customFormatMessage: 'Custom name error',
+        formatMessage: 'Please enter a real word',
+        word: {
+          minLength: 2,
+          minLengthMessage: 'Please enter a word with at least 2 letters',
+          maxLength: 15,
+          maxLengthMessage: 'Please enter a word with less than 15 letters'
+        }
+      },
+      age: {
+        required: true,
+        format: 'number',
+        message: 'Please enter a valid age',
+        number: {
+          max: 10,
+          maxMessage: 'Not under 10',
+          min: 5,
+          minMessage: 'Not over 5'
+        }
+      },
+      birthday: {
+        required: true,
+        format: 'date-MMYYYY',
+        // Can be used to specify before or after
+        // Expected to be in the same format as 'format'
+        date: {
+          before: '10/2017',
+          beforeMessage: 'Before message successful',
+          after: '05/2015',
+          afterMessage: 'After message successul'
+        }
+      },
+      currentDay: {
+        required: true,
+        format: 'date-MMDDYYYY',
+        date: {
+          before: '11/20/2014',
+          beforeMessage: 'Must be before 11/20/2014',
+          after: '05/01/2010'
+        }
+      }
+    }
+  },
+...
+
+```
