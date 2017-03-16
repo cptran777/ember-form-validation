@@ -448,5 +448,10 @@ unacceptable values
 
 ## Changelog
 
+[0.1.6] - Change the way required test is performed so that if blank and not required
+then no other tests will be performed. However, if the item is not required but there
+is a format test, then it will still be subjected to the format test. Also added
+error handling for entering a bad format option. Fix to email formatting for
+item validation. Basic use cases were tested
 [0.1.5] - Change format test to fix false negative cases where only partial strings
 were tested

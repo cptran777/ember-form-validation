@@ -23,10 +23,13 @@ export default function validateItem(item, value, criteria, errors) {
   let format, customFormat;
 
   // First check to see if the item is required, and if so it has a valid value
-  if (criteria.required &&
-     ((!value && value !== 0) ||
-      (typeof value === 'string' && value.length === 0))) {
-    return addError(item, 'required', criteria, errors);
+  if ((!value && value !== 0) ||
+      (typeof value === 'string' && value.length === 0)) {
+    if (criteria.required) {
+      return addError(item, 'required', criteria, errors);
+    } else {
+      return;
+    }
   }
   // Priority check for a custom format, otherwise check for a regular format
   customFormat = criteria.customFormat;
