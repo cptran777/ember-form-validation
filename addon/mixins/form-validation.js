@@ -72,7 +72,7 @@ export default Ember.Mixin.create({
      * @return {boolean}        - whether or not the form was successfully
      *                            validated
      */
-    validate_form_action(formObj) {
+    validate_form_action(formObj, validatorItems) {
       let key, form, formItems, validations, validationItems;
       const validationErrors = {};
 
@@ -84,8 +84,14 @@ export default Ember.Mixin.create({
         console.log('validate-form error: Unable to verify the form. Did you create ' +
           'a validate object property on your component?');
       }
-      // Uses the key to get the form itself
-      form = formObj || this.get(key);
+      //
+      if (Array.isArray(formObj)) {
+        validatorItems = formObj;
+        form = this.get(key);
+      } else {
+        // Uses the key to get the form itself
+        form = formObj || this.get(key);
+      }
 
       if (!form) {
         console.log('validate-form error: Unable to retrieve form. Did you create a ' +
@@ -97,7 +103,7 @@ export default Ember.Mixin.create({
       // Validation criteria specified on the component by the user
       validations = this.get('validate').form;
       // Enumerates through the validator and gets the properties to be tested
-      validationItems = this.get('_validatorItems');
+      validationItems = validatorItems || this.get('_validatorItems');
 
       validationItems.forEach(item => {
         let formItem = form[item];

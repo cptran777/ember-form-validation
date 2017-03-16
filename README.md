@@ -442,12 +442,17 @@ for validation is found with this property, one of the objects in the
 ## Backlog
 
 * Add ability to validate live on change to values
+* Add ability to do partial validations and specify only certain properties to be
+tested
 * Add ability to do multiple format/customFormat validations on a single value
 * Ability to specify a "whitelist" of acceptable values or "blacklist" of
 unacceptable values
 
 ## Changelog
 
+[0.1.7] - Passing in an array or object and array to the validate action will allow
+the user to specify what `validate` properties they want tested. This is especially
+useful for partial validations that only use a portion of the criteria
 [0.1.6] - Change the way required test is performed so that if blank and not required
 then no other tests will be performed. However, if the item is not required but there
 is a format test, then it will still be subjected to the format test. Also added
