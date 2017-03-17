@@ -450,6 +450,7 @@ unacceptable values
 
 ## Changelog
 
+[0.1.8] - Removed JSdoc plugin
 [0.1.7] - Passing in an array or object and array to the validate action will allow
 the user to specify what `validate` properties they want tested. This is especially
 useful for partial validations that only use a portion of the criteria
